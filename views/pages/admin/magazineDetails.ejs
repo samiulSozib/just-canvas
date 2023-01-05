@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>
+        <%= title %>
+    </title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="/styles/style.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pixeden-stroke-7-icon@1.2.3/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    <script src="https://kit.fontawesome.com/d8a373be04.js" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+
+    <!--  -->
+    <div class="py-5">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+            <div class="container">
+                <a class="navbar-brand" href="/home">JUST Campus Magazine</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+                <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                    <ul class="navbar-nav">
+
+                        <% if(user){ %>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="/admin/category" href="">Category</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/admin/create-category">Create Category</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/admin/magazine">Manage Magazine</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="/auth/logout">Logout</a>
+                            </li>
+                            <% }else{ %>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/">Dashboard</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/auth/google">Login</a>
+                                </li>
+                                <% } %>
+
+                    </ul>
+
+                </div>
+            </div>
+        </nav>
+    </div>
+    <!--  -->
+
+    <div class="container">
+        <h5>
+            <%= post.title %>
+                <hr>
+        </h5>
+        <div class="card">
+            <div class="text-center p-3">
+                <% if(post.thumbnail){ %>
+                    <img src="<%= post.thumbnail %>" alt="post-thumbnail">
+                    <% } %>
+            </div>
+            <div class="card card-body">
+                <p><strong>Author:</strong> <a href=""><span><%= post.author_name %> </span></a></p>
+                <h5>
+                    <%= post.title %>
+                </h5>
+                <hr>
+                <p>
+                    <%- post.body %>
+                </p>
+                <div>
+                    <div class="row">
+                        <% if(post.status==='1'){ %>
+                            <button id="manage_post" class="btn btn-success mr-2" data-id="<%= post._id %>">Approve</button>
+                            <% }else{ %>
+                                <button id="manage_post" class="btn btn-danger mr-2" data-id="<%= post._id %>">Pending</button>
+                                <% } %>
+
+
+                                    <a href="/admin/magazine-delete/<%= post._id %>" class="btn btn-warning mr-2"><span>Delete</span></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%- include('../../partials/footer.ejs') %>
+
+        <script>
+            let managePost = document.getElementById('manage_post')
+            managePost.addEventListener('click', () => {
+                let postId = managePost.dataset.id
+                approvePending(postId)
+                    .then(res => res.json())
+                    .then(data => {
+                        console.log(data)
+                        if (data.approve) {
+                            managePost.classList.remove('btn-danger')
+                            managePost.classList.add('btn-success')
+                            managePost.innerHTML = 'Approve'
+                        } else {
+                            managePost.classList.remove('btn-success')
+                            managePost.classList.add('btn-danger')
+                            managePost.innerHTML = 'Pending'
+
+                        }
+                    })
+                    .catch(e => {
+                        console.log(e.response.data.error)
+                        alert('Something Wrong')
+                    }).catch(e => {
+                        console.log(e)
+                    })
+            })
+
+            function approvePending(p_id) {
+                let headers = new Headers()
+                headers.append('Accept', 'Application/JSON')
+                headers.append('Content-Type', 'Application/JSON')
+
+                let req = new Request(`/admin/magazine-status/${p_id}`, {
+                    method: 'GET',
+                    headers,
+                    mode: 'cors'
+                })
+
+                return fetch(req)
+            }
+        </script>
+
+</body>
+
+</html>

@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>
+        <%= title %>
+    </title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="/styles/style.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pixeden-stroke-7-icon@1.2.3/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    <script src="https://kit.fontawesome.com/d8a373be04.js" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+
+    <!--  -->
+    <div class="py-5">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+            <div class="container">
+                <a class="navbar-brand" href="/home">JUST Campus Magazine</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+                <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                    <ul class="navbar-nav">
+
+                        <% if(user){ %>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="/admin/category" href="">Category</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/admin/create-category">Create Category</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/admin/magazine">Manage Magazine</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="/auth/logout">Logout</a>
+                            </li>
+                            <% }else{ %>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/">Dashboard</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/auth/google">Login</a>
+                                </li>
+                                <% } %>
+
+                    </ul>
+
+                </div>
+            </div>
+        </nav>
+    </div>
+    <!--  -->
+
+    <div class="container">
+        <h5>Editor List</h5>
+        <a href="/admin/add-editor" class="btn btn-secondary p-2"><span>Add Editor</span></a>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col"></th>
+                    <th scope="col">Editor Name</th>
+                    <th scope="col">Editor Email</th>
+                    <th scope="col">Action</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                <% for(let i=0;i<editor.length;i++){ %>
+                    <tr>
+                        <th scope="row">
+                            <%= i+1 %>
+                        </th>
+                        <td>
+                            <%= editor[i].name %>
+                        </td>
+                        <td>
+                            <%= editor[i].email %>
+                        </td>
+                        <td>
+                            <a href="/admin/delete-editor/<%= editor[i].id %>" class="btn btn-danger">Delete</a>
+                        </td>
+                    </tr>
+                    <% } %>
+            </tbody>
+        </table>
+    </div>
+
+
+    <%- include('../../partials/footer.ejs') %>
+
+</body>
+
+</html>

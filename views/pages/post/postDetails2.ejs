@@ -1,0 +1,149 @@
+<%- include('../../partials/header.ejs') %>
+
+    <div id="main-content" class="blog-page">
+        <div class="container">
+
+            <div class="row clearfix">
+                <div class="col-lg-8 col-md-12 left-box">
+                    <div class="card single_post">
+                        <div class="body">
+                            <% if(post.thumbnail){ %>
+                                <div class="img-post">
+                                    <img class="d-block img-fluid" src="<%= post.thumbnail %>" height="280" width="800" alt="Post">
+                                </div>
+                                <% } %>
+                                    <h3>
+                                        <a>
+                                            <%= post.title %>
+                                        </a>
+                                    </h3>
+                                    <p>
+                                        <%- post.body %>
+                                    </p>
+                        </div>
+                    </div>
+                    <div class="card pl-2">
+                        <section class="my-2">
+                            <% if(user){ %>
+                                <button class="btn btn-success btn-sm" id="likeBtn" data-post="<%= post._id %>"><%= post.likes.includes(user._id)?'Liked':'Like' %>( <%= post.likes.length %> )</button>
+                                <button class="btn btn-danger btn-sm" id="dislikeBtn" data-post="<%= post._id %>"><%= post.dislikes.includes(user._id)?'Disliked':'Dislike' %>( <%= post.dislikes.length %> )</button>
+                                <a href="" class="btn btn-info btn-sm"><span>Download</span></a>
+                                <hr>
+                                <div class="mt-5">
+                                    <label for="comment">Leave A Commnet</label>
+                                    <input type="text" name="comment" id="comment" class="form-control" placeholder="Please enter comment" data-post="<%= post._id %>">
+                                </div>
+                                <div class="mt-5" id="comment-holder">
+                                    <% if(post.comments.length==0){ %>
+                                        <p class="text-center text-muted">There is no comment</p>
+                                        <% }else{ %>
+                                            <% for(let comment of post.comments.reverse()){ %>
+                                                <div class="media border">
+                                                    <a href="/auth/<%= comment.user._id %>"><img src="<%= comment.user.avatar %>" alt="" class="rounded-circle mx-3 my-3" style="width: 40px;"></a>
+                                                    <div class="media-body my-3">
+                                                        <a href="/auth/<%= comment.user._id %>">
+                                                            <p>
+                                                                <%= comment.user.name %>
+                                                            </p>
+                                                        </a>
+                                                        <p>
+                                                            <%= comment.body %>
+                                                        </p>
+                                                        <hr>
+                                                        <div name="replies">
+                                                            <% if(comment.replies.length>0){ %>
+                                                                <% for(let reply of comment.replies){ %>
+                                                                    <div class="media mt-3">
+                                                                        <a href="/profile/<%= reply.user._id %>"><img src="<%= reply.user.avatar %>" alt="" class="align-self-start mr-3 rounded-circle" style="width: 40px;"></a>
+                                                                        <div class="media-body">
+                                                                            <a href="/profile/<%= reply.user._id %>">
+                                                                                <p>
+                                                                                    <%= reply.user.name %>
+                                                                                </p>
+                                                                            </a>
+                                                                            <p>
+                                                                                <%= reply.body %>
+                                                                            </p>
+                                                                        </div>
+                                                                    </div>
+                                                                    <hr>
+                                                                    <% } %>
+                                                                        <% } %>
+                                                        </div>
+                                                        <div class="my-3">
+                                                            <input type="text" class="form-control" placeholder="Press Enter to reply" name="reply" data-comment="<%= comment._id %> ">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <% } %>
+                                                    <% } %>
+                                </div>
+                                <% } %>
+                        </section>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-12 right-box">
+                    <div class="card">
+                        <div class="body search">
+                            <div class="input-group m-b-0">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="fa fa-search"></i></span>
+                                </div>
+                                <input type="text" class="form-control" placeholder="Search...">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="header">
+                            <h2>Categories</h2>
+                        </div>
+                        <div class="body widget">
+                            <ul class="list-unstyled categories-clouds m-b-0">
+
+                                <% for(let category of categories){ %>
+                                    <li>
+                                        <a href="/post/<%= category.name %>">
+                                            <%= category.name %>
+                                        </a>
+                                    </li>
+                                    <% } %>
+
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="card mt-1">
+                        <div class="header">
+                            <h2>Recent Posts</h2>
+                        </div>
+                        <div class="body widget popular-post">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <% for(let post of recentPosts){ %>
+                                        <div class="single_post card p-1 mb-1">
+                                            <p class="m-b-0 p-2">
+                                                <a href="/post/post-details/<%= post._id %>"><strong><span><%= post.title %></span></strong></a>
+                                            </p>
+                                            <span class="p-2"><%= moment(post.createdAt) %> </span>
+                                            <hr>
+                                            <div class="img-post">
+                                                <img src="<%= post.thumbnail %> " alt="Awesome Image">
+                                            </div>
+                                        </div>
+                                        <% } %>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <%- include('../../partials/footer.ejs') %>
+        <script src="/scripts/singlePage.js"></script>
+
+        </body>
+
+        </html>

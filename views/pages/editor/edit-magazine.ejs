@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>
+        <%= title %>
+    </title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="/styles/style.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pixeden-stroke-7-icon@1.2.3/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    <script src="https://kit.fontawesome.com/d8a373be04.js" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+    <!--  -->
+    <div class="py-5">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+            <div class="container">
+                <a class="navbar-brand" href="/home">JUST Campus Magazine</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+              </button>
+                <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                    <ul class="navbar-nav">
+
+                        <% if(user){ %>
+
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="/editor/magazine">Manage Magazine</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="/auth/logout">Logout</a>
+                            </li>
+                            <% }else{ %>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/editor">Dashboard</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/auth/google">Login</a>
+                                </li>
+                                <% } %>
+
+                    </ul>
+
+                </div>
+            </div>
+        </nav>
+    </div>
+    <!--  -->
+
+    <div>
+        <div class="container">
+            <div class="card my-2">
+                <div class="card-body">
+                    <h5>Edit Magazine</h5>
+                    <form action="/editor/magazine-edit/<%= post._id %>" method="POST" enctype="multipart/form-data">
+
+                        <div class="form-group">
+                            <label for="title"><strong>Enter Post Title</strong></label>
+                            <input type="text" name="title" id="title" placeholder="Enter Post Title" class="form-control <%= error.title?'is-invalid':'' %>" value="<%= post.title %>">
+                            <div class="invalid-feedback">
+                                <%= error.title %>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label><strong>Select Category</strong></label><br>
+
+                            <select name="category" id="category" class="p-2">
+                                <option value="<%= post.category %>">
+                                    <%= post.category %>
+                                </option>
+                                
+                                <% for(category of categories){ %>
+                                    <option value="<%= category.name %>"><%= category.name %></option>
+                                <% } %> 
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="tiny-mce-post-body"><strong>Enter Post Description</strong></label>
+                            <textarea name="body" id="tiny-mce-post-body" class="form-control <%= error.body?'is-invalid':'' %> " cols="30" rows="10">
+                                <%= post.body %> 
+                            </textarea>
+                            <div class="invalid-feedback">
+                                <%= error.body %>
+                            </div>
+                        </div>
+                        <% if(post.thumbnail){ %>
+                            <img src="<%= post.thumbnail %> " alt="post-thumbnail" class="img-fluid my-2 card card-body" style="height: 200px; width: 300px;">
+                            <% } %>
+                                <div class="input-group-mb-3">
+                                    <div class="input-group-prepend my-2">
+                                        <span class="input-group-text"><strong>Post Thumbnail</strong></span>
+                                    </div>
+                                    <div class="custom-file my-2">
+                                        <input type="file" name="post-thumbnail" class="custom-file-input" id="inputGroupFile">
+                                        <label for="inputGroupFile" class="custom-file-label"><strong>Choose File</strong></label>
+                                    </div>
+                                </div>
+
+                                <input type="submit" class="btn btn-primary" value="Update">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%- include('../../partials/footer.ejs') %>
+        <script src="https://cdn.tiny.cloud/1/upwt06bkd22wjvd85hwgqgio2i717lcqw64ao14miyke0lyv/tinymce/5/tinymce.min.js"></script>
+        <script src="/scripts/tinymce.js"></script>
+
+        <script>
+            $('#inputGroupFile').on('change', function(e) {
+                let filename = e.target.files[0].name
+                $(this).next('.custom-file-label').html(filename)
+            })
+        </script>
+
+</body>
+
+</html>

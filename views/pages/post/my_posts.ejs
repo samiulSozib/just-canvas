@@ -1,0 +1,55 @@
+<%- include('../../partials/header.ejs') %>
+
+    <div>
+        <div class="container">
+            <div class="card my-2">
+                <div class="card-body">
+                    <h5>My Posts</h5>
+                    <% if(posts.length==0){ %>
+                        <p>There Is No Post</p>
+                        <% }else{ %>
+                            <% for(let post of posts){ %>
+                                <div class="card card-body mb-3">
+                                    <div class="row">
+                                        <div class="col-lg-4 col-md-6 col-sm-12">
+                                            <% if(post.thumbnail){ %>
+                                                <div class="card">
+                                                    <img src="<%= post.thumbnail %> " alt="post-thumbnail" class="img-fluid mb-2 card-body">
+                                                </div>
+                                                <% } %>
+                                        </div>
+                                        <div class="col-lg-8 col-md-6 col-sm-12">
+                                            <strong><%= post.title %> </strong>
+                                            <p>
+                                                <%= truncate(post.body) %>
+                                            </p>
+                                            <hr>
+                                            <a href="/profile/<%= post.author._id %>"><strong><%= post.author_name %> </strong></a><br>
+                                            <small>
+                                                <%= moment(post.createdAt) %>, 
+                                                <%= post.readTime %> 
+                                            </small>
+                                            <hr>
+                                            <a href="/post/update-post/<%= post._id %>" class="btn btn-primary">Update</a>
+                                            <a href="/post/delete-post/<%= post._id %>" class="btn btn-danger">Delete</a>
+                                            <hr>
+                                            <section class="my-2">
+                                                <a href="" class="btn btn-success btn-sm">Likes ( <%= post.likes.length %> )</a>
+                                                <a href="" class="btn btn-danger btn-sm">Dislikes ( <%= post.dislikes.length %> )</a>
+                                                <a href="" class="btn btn-info btn-sm">Comments ( <%= post.comments.length %> )</a>
+                                            </section>
+                                        </div>
+                                    </div>
+                                </div>
+                                <% } %>
+                                    <% } %>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%- include('../../partials/footer.ejs') %>
+
+        </body>
+
+        </html>

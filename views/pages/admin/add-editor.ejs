@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>
+        <%= title %>
+    </title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="/styles/style.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pixeden-stroke-7-icon@1.2.3/pe-icon-7-stroke/dist/pe-icon-7-stroke.min.css">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+    <script src="https://kit.fontawesome.com/d8a373be04.js" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+
+    <!--  -->
+    <div class="py-5">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+            <div class="container">
+                <a class="navbar-brand" href="/home">JUST Campus Magazine</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+                <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                    <ul class="navbar-nav">
+
+                        <% if(user){ %>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="/admin/category" href="">Category</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/admin/create-category">Create Category</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/admin/magazine">Manage Magazine</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="/auth/logout">Logout</a>
+                            </li>
+                            <% }else{ %>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/">Dashboard</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/auth/google">Login</a>
+                                </li>
+                                <% } %>
+
+                    </ul>
+
+                </div>
+            </div>
+        </nav>
+    </div>
+    <!--  -->
+
+
+    <!--  -->
+    <div class="container">
+        <form method="post" action="/admin/add-editor">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="form-group">
+                        <label for="name">Enter Editor Name</label>
+                        <input type="text" class="form-control" id="editorName" name="editorName" placeholder="Enter Editor Name">
+
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Enter Editor Email</label>
+                        <input type="email" class="form-control" id="editorEmail" name="editorEmail" placeholder="Enter Editor Email">
+
+                    </div>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </form>
+    </div>
+    <!--  -->
+
+
+
+
+    <%- include('../../partials/footer.ejs') %>
+
+</body>
+
+</html>

@@ -1,0 +1,99 @@
+<%- include('../../partials/header.ejs') %>
+
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 full-content">
+                <h2 class="section-title no-border "><span>Latest</span> From
+                    <%= cat.toUpperCase() %>
+                </h2>
+                <div class="mb-3"></div>
+                <hr>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-12">
+                <% if(posts.length<=0){ %>
+                    <p>There Is No Post</p>
+                    <% }else { %>
+                        <div class="row">
+                            <% for(let post of posts){ %>
+                                <div class="col-md-6 col-xl-4">
+                                    <article class="post">
+                                        <div class="article-v2">
+                                            <figure class="article-thumb">
+                                                <% if(post.thumbnail){ %>
+                                                    <a href="">
+                                                        <img src="<%= post.thumbnail %>" alt="blog image" height="280" width="350" />
+                                                    </a>
+                                                    <% } %>
+                                            </figure>
+
+                                            <div class="article-content-main">
+                                                <div class="article-header">
+                                                    <h2 class="entry-title">
+                                                        <a href="#">
+                                                            <%= post.title %>
+                                                        </a>
+                                                    </h2>
+                                                    <div class="entry-meta">
+                                                        <div class="entry-date">
+                                                            <%= moment(post.createdAt) %>
+                                                        </div>
+
+                                                        <div class="entry-cat">
+                                                            <a href="#">
+                                                                <%= post.category %>
+                                                            </a>
+                                                        </div>
+                                                        <div class="entry-cat">
+                                                            <a href="/auth/profile/<%= post.author %>">
+                                                                <%= post.author_name %>
+                                                            </a>
+                                                        </div>
+
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="article-content">
+                                                    <p>
+                                                        <%= truncate(post.body) %>
+                                                    </p>
+
+                                                </div>
+
+                                                <div class="article-footer">
+
+                                                    <div class="row justify-content-between">
+                                                        <a href="/post/post-details/<%= post._id %>" class="more-link">Read More</a>
+                                                        <a href="#">
+                                                            <%= post.comments.length %><i class="pe-7s-comment"></i></a>
+                                                    </div>
+                                                    <hr>
+                                                    <div class="row justify-content-between">
+                                                        <a href="/post/post-details/<%= post._id %>" class="btn btn-success btn-sm">Likes ( <%= post.likes.length %> )</a>
+                                                        <a href="/post/post-details/<%= post._id %>" class="btn btn-danger btn-sm">Dislikes ( <%= post.dislikes.length %> )</a>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </article>
+                                </div>
+
+                                <% } %>
+                        </div>
+                        <% } %>
+            </div>
+        </div>
+    </div>
+
+    <%- include('../../partials/footer.ejs') %>
+        <!-- <script src="/scripts/singlePage.js"></script> -->
+
+        </body>
+
+        </html>
