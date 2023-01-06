@@ -62,7 +62,12 @@ exports.getMyAllPost = async(req, res, next) => {
         let user_id = req.user.id
             //console.log(user_id)
         let user = await User.findById(user_id)
-        let posts = await Post.find({ author: user_id })
+            //let posts = await Post.find({ author: user_id })
+        let posts = await Post.find({
+            $and: [{
+                author: user_id
+            }]
+        })
         return res.render('pages/post/my_posts', { title: "My Posts", user, posts })
 
     } catch (e) {

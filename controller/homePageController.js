@@ -3,7 +3,7 @@ const Post = require('../model/Post')
 exports.getHomePage = async(req, res, next) => {
     try {
         console.log(req.user.role)
-        let posts = await Post.find()
+        let posts = await Post.find({ status: "1" })
         if (req.user.role == '2') {
             return res.render('pages/student/student_homepage', { title: "Homepage " + req.user.student_id, user: req.user, posts })
         } else if (req.user.role == '1') {
