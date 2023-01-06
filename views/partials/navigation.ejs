@@ -9,27 +9,55 @@
                 <ul class="navbar-nav">
 
                     <% if(user){ %>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/home">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/auth/profile">Profile</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/post/create-post">Create Post</a>
-                        </li>
+                        <% if(user.role==="3"){ %>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/admin/category" href="">Category</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/admin/create-category">Create Category</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/admin/magazine">Manage Magazine</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/admin/editor">Editor</a>
+                            </li>
 
-                        <li class="nav-item">
-                            <a class="nav-link" href="/auth/logout">Logout</a>
-                        </li>
-                        <% }else{ %>
                             <li class="nav-item">
-                                <a class="nav-link" href="/">Dashboard</a>
+                                <a class="nav-link" href="/auth/logout">Logout</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="/auth/google">Login</a>
-                            </li>
-                            <% } %>
+                            <%} else if(user.role==="4"){ %>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/editor/magazine">Manage Magazine</a>
+                                </li>
+
+
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/auth/logout">Logout</a>
+                                </li>
+                                <% }else{ %>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/home">Home</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/auth/profile">Profile</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/post/create-post">Create Post</a>
+                                    </li>
+
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="/auth/logout">Logout</a>
+                                    </li>
+                                    <% } %>
+                                        <% }else{ %>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="/">Dashboard</a>
+                                            </li>
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="/auth/google">Login</a>
+                                            </li>
+                                            <% } %>
 
                 </ul>
             </div>
