@@ -4,6 +4,7 @@ const Post = require('../model/Post');
 const mongoose = require('mongoose')
 const fs = require('fs');
 const Category = require('../model/Category');
+const path = require('path');
 
 exports.getPostPageController = async(req, res, next) => {
     try {
@@ -27,16 +28,32 @@ exports.postPostPageController = async(req, res, next) => {
             category,
             body,
             thumbnail: '',
+            file: '',
             author: req.user.id,
             author_name: req.user.name,
             likes: [],
             dislikes: [],
             comments: []
         })
-        if (req.file) {
-            post.thumbnail = `/uploads/${req.file.filename}`
+
+        if (req.files.length == 2) {
+            //console.log(req.files[0])
+            post.thumbnail = `/uploads/${req.files[0].filename}`
+            post.file = `/upload/${req.files[1].filename}`
+        } else if (req.files.length === 1) {
+            const types1 = /jpeg|png|jpg|gif/
+            const types2 = /pdf|doc|docx/
+            const extName = types1.test(path.extname(req.files[0].filename).toLowerCase())
+            const extName1 = types2.test(path.extname(req.files[0].filename).toLowerCase())
+            if (extName) {
+                post.thumbnail = `/uploads/${req.files[0].filename}`
+            } else {
+                post.file = `/uploads/${req.files[0].filename}`
+            }
         }
 
+
+        //return res.json(post)
 
         //console.log(post)
 
@@ -212,5 +229,30 @@ exports.getPosttByCategory = async(req, res, next) => {
     } catch (e) {
         console.log(e)
         next()
+    }
+}
+
+
+
+exports.downloadController = async(req, res, next) => {
+    try {
+        let file = req.params.fileurl
+            // console.log(__dirname)
+
+        // let a = path.join(__dirname, '..')
+        // console.log(a)
+
+        const filepath = 'public/uploads/' + file
+        let ext = path.extname(file)
+        let filename = file + ext
+        res.download(filepath, (err) => {
+            if (err) {
+                console.log(err)
+                return res.redirect('/home')
+            }
+        })
+    } catch (e) {
+        console.log(e)
+        next(e)
     }
 }

@@ -24,6 +24,9 @@ const postSchema = new Schema({
     thumbnail: {
         type: String
     },
+    file: {
+        type: String
+    },
     readTime: {
         type: String
     },

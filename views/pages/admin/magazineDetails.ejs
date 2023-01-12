@@ -77,6 +77,11 @@
                     <img src="<%= post.thumbnail %>" alt="post-thumbnail">
                     <% } %>
             </div>
+            <div>
+                <% if(post.file){ %>
+                    <a href='/post/download<%= post.file %>' class="btn btn-warning m-2">Download Here</a>
+                    <% } %>
+            </div>
             <div class="card card-body">
                 <p><strong>Author:</strong> <a href=""><span><%= post.author_name %> </span></a></p>
                 <h5>

@@ -40,17 +40,7 @@ const DB_USER = process.env.DB_USER
 const DB_PASSWORD = process.env.DB_PASSWORD
 const DB_NAME = process.env.DB_NAME
 
-mongoose.connect(`mongodb+srv://sumaiya:sadia@cluster0.wfp3rjc.mongodb.net/just-campus-magazine?retryWrites=true&w=majority`, { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => {
-        console.log('Database connect success')
-        server.listen(PORT, () => {
-            console.log('Server Is Ready')
-        })
-    }).catch(e => {
-        return console.log(e)
-    })
-
-// mongoose.connect(`mongodb://localhost:27017/just-campus-magazine`, { useNewUrlParser: true, useUnifiedTopology: true })
+// mongoose.connect(`mongodb+srv://sumaiya:sadia@cluster0.wfp3rjc.mongodb.net/just-campus-magazine?retryWrites=true&w=majority&ssl=true`, { useNewUrlParser: true, useUnifiedTopology: true })
 //     .then(() => {
 //         console.log('Database connect success')
 //         server.listen(PORT, () => {
@@ -59,3 +49,13 @@ mongoose.connect(`mongodb+srv://sumaiya:sadia@cluster0.wfp3rjc.mongodb.net/just-
 //     }).catch(e => {
 //         return console.log(e)
 //     })
+
+mongoose.connect(`mongodb://localhost:27017/just-campus-magazine`, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => {
+        console.log('Database connect success')
+        server.listen(PORT, () => {
+            console.log('Server Is Ready')
+        })
+    }).catch(e => {
+        return console.log(e)
+    })
